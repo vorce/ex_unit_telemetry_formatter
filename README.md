@@ -4,13 +4,15 @@ An [ExUnit formatter](https://hexdocs.pm/ex_unit/1.13/ExUnit.Formatter.html) tha
 
 ## Use cases
 
-* Report metrics to external systems about your test suite
+- Enable reporting of test suite metrics to external systems
 
 ## Events
 
 See [`lib/ex_unit_telemetry_formatter.ex`](lib/ex_unit_telemetry_formatter.ex) documentation.
 
 ## Installation
+
+Not on Hex yet! I want to test the formatter in some projects first.
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 by adding `test_stats` to your list of dependencies in `mix.exs`:
