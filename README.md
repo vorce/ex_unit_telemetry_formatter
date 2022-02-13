@@ -1,3 +1,5 @@
+![CI](https://github.com/vorce/ex_unit_telemetry_formatter/actions/workflows/action.yml/badge.svg)
+
 # ExUnit Telemetry Formatter
 
 An [ExUnit formatter](https://hexdocs.pm/ex_unit/1.13/ExUnit.Formatter.html) that emits [telemetry](https://hexdocs.pm/telemetry/readme.html) events about your test suite.
