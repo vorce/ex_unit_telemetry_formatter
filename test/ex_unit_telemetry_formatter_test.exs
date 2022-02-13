@@ -22,10 +22,7 @@ defmodule ExUnitTelemetryFormatterTest do
 
     test "total", %{test: test, event_name: event_name} do
       defsuite do
-        test "success" do
-          :timer.sleep(5)
-          assert(true)
-        end
+        test "success", do: assert(true)
       end
 
       self = self()
@@ -44,10 +41,7 @@ defmodule ExUnitTelemetryFormatterTest do
 
     test "sync", %{test: test, event_name: event_name} do
       defsuite async: false do
-        test "success" do
-          :timer.sleep(5)
-          assert(true)
-        end
+        test "success", do: assert(true)
       end
 
       self = self()
@@ -60,10 +54,7 @@ defmodule ExUnitTelemetryFormatterTest do
 
     test "async", %{test: test, event_name: event_name} do
       defsuite async: true do
-        test "success" do
-          :timer.sleep(5)
-          assert(true)
-        end
+        test "success", do: assert(true)
       end
 
       self = self()
@@ -89,15 +80,12 @@ defmodule ExUnitTelemetryFormatterTest do
 
   describe "test_finished" do
     setup do
-      [event_name: [:ex_unit, :telemetry_formatter, :test_finished]]
+      [event_name: [:ex_unit_telemetry_formatter, :test_finished]]
     end
 
     test "time and metadata", %{test: test, event_name: event_name} do
       defsuite do
-        test "success" do
-          :timer.sleep(5)
-          assert(true)
-        end
+        test "success", do: assert(true)
       end
 
       expected_name = :"test success"
@@ -107,11 +95,11 @@ defmodule ExUnitTelemetryFormatterTest do
 
       run_tests_with_formatter(ExUnitTelemetryFormatter)
 
-      assert_receive {:telemetry_event, ^event_name, %{time: time},
+      assert_receive {:telemetry_event, ^event_name, %{time: {time, _}},
                       %{test: %{name: ^expected_name, module: module}}}
                      when time > 0
 
-      assert to_string(module) =~ "ExUnitTelemetryFormatter.Test"
+      assert to_string(module) =~ "ExUnitTelemetryFormatterTest.Test"
     end
   end
 
