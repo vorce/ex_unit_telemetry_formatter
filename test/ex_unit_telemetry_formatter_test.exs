@@ -117,14 +117,9 @@ defmodule ExUnitTelemetryFormatterTest do
   end
 
   defp run_tests_with_formatter(formatter, opts \\ []) do
-    ExUnit.configure(Keyword.merge(opts, formatters: [formatter]))
-    funs = ExUnit.Server.__info__(:functions)
-
-    if Keyword.has_key?(funs, :modules_loaded) do
-      apply(ExUnit.Server, :modules_loaded, [])
-    else
-      apply(ExUnit.Server, :cases_loaded, [])
-    end
+    opts
+    |> Keyword.merge(formatters: [formatter])
+    |> ExUnit.configure()
 
     ExUnit.run()
   end
