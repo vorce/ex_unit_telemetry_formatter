@@ -10,7 +10,7 @@ defmodule ExUnitTelemetryFormatter do
 
   #### Measurements
 
-  All measurement values are tuples containing the time and the time unit, example: `{357900, :microseconds}`
+  All measurement values are tuples containing the time and the time unit, example: `{357900, :microsecond}`
 
   * `run` - the run time of the suite
   * `load` - the time taken to load tests
@@ -33,9 +33,10 @@ defmodule ExUnitTelemetryFormatter do
 
   #### Metadata
 
-  * `name` - Name of the test case
-  * `module` - Module containing the test case
-  * `tags` - Tags of the test case
+  * `test` - A map containing test details
+      * `name` - Name of the test case
+      * `module` - Module containing the test case
+      * `tags` - Tags of the test case
 
   """
   use GenServer
@@ -43,6 +44,9 @@ defmodule ExUnitTelemetryFormatter do
   defstruct [:seed, :total_cases]
 
   @event_name_base [:ex_unit_telemetry_formatter]
+
+  # Measurements from exunit is in microseconds
+  @exunit_time_unit :microsecond
 
   @impl true
   def init(opts) do
@@ -56,13 +60,12 @@ defmodule ExUnitTelemetryFormatter do
 
   @impl true
   def handle_cast({:suite_finished = event_name, times_us}, config) do
-    # Measurements from exunit is in microseconds
     measurements = %{
-      run: {times_us.run, :microseconds},
-      async: {times_us.async || 0, :microseconds},
-      load: {times_us.load || 0, :microseconds},
-      sync: {times_us.run - (times_us.async || 0), :microseconds},
-      total: {times_us.run + (times_us.load || 0), :microseconds}
+      run: {times_us.run, @exunit_time_unit},
+      async: {times_us.async || 0, @exunit_time_unit},
+      load: {times_us.load || 0, @exunit_time_unit},
+      sync: {times_us.run - (times_us.async || 0), @exunit_time_unit},
+      total: {times_us.run + (times_us.load || 0), @exunit_time_unit}
     }
 
     :telemetry.execute(
@@ -89,7 +92,7 @@ defmodule ExUnitTelemetryFormatter do
 
   def handle_cast({:test_finished = event_name, test}, config) do
     measurements = %{
-      time: {test.time, :microseconds}
+      time: {test.time, @exunit_time_unit}
     }
 
     metadata = %{

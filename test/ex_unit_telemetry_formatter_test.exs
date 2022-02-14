@@ -32,9 +32,9 @@ defmodule ExUnitTelemetryFormatterTest do
 
       assert_receive {:telemetry_event, ^event_name,
                       %{
-                        load: {load, :microseconds},
-                        run: {run, :microseconds},
-                        total: {total, :microseconds}
+                        load: {load, :microsecond},
+                        run: {run, :microsecond},
+                        total: {total, :microsecond}
                       }, _}
                      when total >= run + load
     end
@@ -49,7 +49,7 @@ defmodule ExUnitTelemetryFormatterTest do
       run_tests_with_formatter(ExUnitTelemetryFormatter)
 
       assert_receive {:telemetry_event, ^event_name,
-                      %{sync: {sync, :microseconds}, async: {async, :microseconds}}, _}
+                      %{sync: {sync, :microsecond}, async: {async, :microsecond}}, _}
                      when sync > 0 and async < sync
     end
 
@@ -63,7 +63,7 @@ defmodule ExUnitTelemetryFormatterTest do
       run_tests_with_formatter(ExUnitTelemetryFormatter)
 
       assert_receive {:telemetry_event, ^event_name,
-                      %{async: {async, :microseconds}, sync: {sync, :microseconds}}, _}
+                      %{async: {async, :microsecond}, sync: {sync, :microsecond}}, _}
                      when async > 0 and sync < async
     end
 
@@ -97,7 +97,7 @@ defmodule ExUnitTelemetryFormatterTest do
 
       run_tests_with_formatter(ExUnitTelemetryFormatter)
 
-      assert_receive {:telemetry_event, ^event_name, %{time: {time, :microseconds}},
+      assert_receive {:telemetry_event, ^event_name, %{time: {time, :microsecond}},
                       %{test: %{name: ^expected_name, module: module}}}
                      when time > 0
 
