@@ -4,6 +4,8 @@
 
 An [ExUnit formatter](https://hexdocs.pm/ex_unit/1.13/ExUnit.Formatter.html) that emits [telemetry](https://hexdocs.pm/telemetry/readme.html) events about your test suite.
 
+After some more thinking, and using this in a project I've come to the conclusion that ex_unit_telemetry_formatter is unecessary. Instead of using ex_unit_telemetry_formatter and handling the telemetry events - why not just go straight to writing a customer formatter that handles the events straight from ExUnit? One less dependency, and same functionality.
+
 ## Use cases
 
 - Enable reporting of test suite metrics to external systems
